@@ -103,6 +103,7 @@
             pkgs.less
             pkgs.procps
             pkgs.shadow # provides groupadd/useradd/groupdel/userdel
+            pkgs.sudo
             pkgs.cacert
           ];
 
@@ -153,10 +154,12 @@
             export SSL_CERT_FILE="${pkgs.cacert}/etc/ssl/certs/ca-bundle.crt"
             export NIX_SSL_CERT_FILE="${pkgs.cacert}/etc/ssl/certs/ca-bundle.crt"
 
-            # Start with an empty user/group database so Toad sees no existing
-            # state and the planner only generates add-steps, never removals.
-            printf 'root:x:0:0:root:/root:/bin/sh\n' > /etc/passwd
-            touch /etc/group /etc/shadow /etc/gshadow
+            # Start with only container base identities so Toad sees minimal
+            # state while shell tools still have a real user/group database.
+            printf 'root:x:0:0:root:/root:/bin/sh\nfrogos:x:1000:0:frogos:/home/frogos:/bin/sh\n' > /etc/passwd
+            printf 'root:x:0:frogos\n' > /etc/group
+            printf 'root:*:19770:0:99999:7:::\nfrogos:*:19770:0:99999:7:::\n' > /etc/shadow
+            printf 'root:!::frogos\n' > /etc/gshadow
             chmod 640 /etc/shadow /etc/gshadow
 
             # ── generation store ───────────────────────────────────────────────
