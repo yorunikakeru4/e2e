@@ -137,7 +137,7 @@
           runScript = pkgs.writeShellScript "e2e-entry" ''
             # Set PATH before anything else: /etc/profile is absent until we create
             # it below, so /init's attempt to source it leaves PATH unset.
-            export PATH="/usr/local/bin:/usr/bin:/bin:/usr/local/sbin:/usr/sbin:/sbin"
+            export PATH="/run/current-system/sw/bin:/usr/local/bin:/usr/bin:/bin:/usr/local/sbin:/usr/sbin:/sbin"
             set -euo pipefail
 
             # ── writable /etc ─────────────────────────────────────────────────
@@ -146,7 +146,7 @@
             cd /etc/frogos
 
             # Restore /etc/profile so interactive shells get a working PATH.
-            printf 'export PATH="/usr/local/bin:/usr/bin:/bin:/usr/local/sbin:/usr/sbin:/sbin"\n' \
+            printf 'export PATH="/run/current-system/sw/bin:/usr/local/bin:/usr/bin:/bin:/usr/local/sbin:/usr/sbin:/sbin"\n' \
               > /etc/profile
 
             # DNS (public resolvers for the sandbox)
