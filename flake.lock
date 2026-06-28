@@ -11,11 +11,11 @@
         "treefmt-nix": "treefmt-nix_2"
       },
       "locked": {
-        "lastModified": 1782429904,
-        "narHash": "sha256-RuxQr68T5TQ4DGv1HMckbXsThu/mkU5CU7jZVgxvObA=",
+        "lastModified": 1782645537,
+        "narHash": "sha256-JmYHFyKcNeBFfycpDXPCnYg0VQsqdKQ3A6C8XdAGWa0=",
         "ref": "refs/heads/main",
-        "rev": "806aced3109782af267007baa575a74c3272eab0",
-        "revCount": 219,
+        "rev": "50624fbf5791516b7a05ec9e6fd05d3125057a61",
+        "revCount": 221,
         "type": "git",
         "url": "https://git.cherdak.work/FrogOS/DSL"
       },
@@ -144,15 +144,17 @@
         ],
         "planner-src": "planner-src",
         "supervisor-src": "supervisor-src",
-        "toad-src": "toad-src",
+        "toad-src": [
+          "toad-src"
+        ],
         "treefmt-nix": "treefmt-nix_3"
       },
       "locked": {
-        "lastModified": 1782633228,
-        "narHash": "sha256-3x+Dx2IBBt1WGHsf+04BgQIG2ZVC88pn4F010hIcTWc=",
+        "lastModified": 1782645535,
+        "narHash": "sha256-Z5vD+GbIp3zP2tMgAS2LVIAoe8ezcsaCwDnDz/vB/rA=",
         "ref": "refs/heads/main",
-        "rev": "70fd521166e3a195b7b802f4b9fae2b1ad7e1b5c",
-        "revCount": 24,
+        "rev": "f98a84f6eb2f56f86c7aef2cc1f1a8ecb823f0cc",
+        "revCount": 28,
         "type": "git",
         "url": "https://git.cherdak.work/FrogOS/FrogOS"
       },
@@ -283,7 +285,8 @@
         "dsl-flake": "dsl-flake",
         "flake-utils": "flake-utils_3",
         "frogos-flake": "frogos-flake",
-        "nixpkgs": "nixpkgs_5"
+        "nixpkgs": "nixpkgs_5",
+        "toad-src": "toad-src"
       }
     },
     "rust-analyzer-src": {
@@ -412,16 +415,15 @@
     "toad-src": {
       "flake": false,
       "locked": {
-        "lastModified": 1782313030,
-        "narHash": "sha256-bV6IpX7R4w0mzsCy89LK2qPRe0OdbfjtDmSPXHpGTy0=",
-        "ref": "feat/issue-3-observation-probes",
-        "rev": "30dc627afdfd8f8354200b811427175e3de84a97",
-        "revCount": 28,
+        "lastModified": 1782633946,
+        "narHash": "sha256-lKXa+jbc7H9vKDB8EWbj+yNpn7uYuQjkwXYyzjhnQWg=",
+        "ref": "refs/heads/main",
+        "rev": "0400bc9be7ed13afa56239c6e49d64cd58755a0e",
+        "revCount": 38,
         "type": "git",
         "url": "https://git.cherdak.work/FrogOS/Toad"
       },
       "original": {
-        "ref": "feat/issue-3-observation-probes",
         "type": "git",
         "url": "https://git.cherdak.work/FrogOS/Toad"
       }
