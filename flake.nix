@@ -205,6 +205,9 @@
             cp ${serverStackHsTemplate}  /etc/frogos/ServerStack.hs
             cp ${usersHsTemplate}        /etc/frogos/Users.hs
 
+            echo "Updating Hackage package list..."
+            cabal update
+
             export XDG_RUNTIME_DIR="''${XDG_RUNTIME_DIR:-/run/user/$(id -u)}"
             mkdir -p "$XDG_RUNTIME_DIR"
 
