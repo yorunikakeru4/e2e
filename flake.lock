@@ -27,11 +27,11 @@
     "executor-src": {
       "flake": false,
       "locked": {
-        "lastModified": 1782650459,
-        "narHash": "sha256-ugrl82PA4TpMB6rTOG8z9QoORHYbs17Ur2I0x4XGY3k=",
+        "lastModified": 1782654942,
+        "narHash": "sha256-hOvsSLZYDCrTZKv9sbqe0NZ9ng7HYwn4T7DGaB5Ui/U=",
         "ref": "refs/heads/main",
-        "rev": "99fefd9e9449d60eb323fda494e1c3784980fe15",
-        "revCount": 42,
+        "rev": "ec26ff6d542e9a8c77d60b100178789c8af80add",
+        "revCount": 45,
         "type": "git",
         "url": "https://git.cherdak.work/FrogOS/Executor"
       },
@@ -151,11 +151,11 @@
         "treefmt-nix": "treefmt-nix_3"
       },
       "locked": {
-        "lastModified": 1782650478,
-        "narHash": "sha256-Cg91Z4CwgLP2dpFyRzD5mJzk6zacCkFJ8wl6QKWjaFg=",
+        "lastModified": 1782654976,
+        "narHash": "sha256-6tdtukEBwgCPJQoNWUmoy0dPtzYGjvZ+91ce1VtVpLE=",
         "ref": "refs/heads/main",
-        "rev": "27ef872e72240abb635584d325e78c55e415a28b",
-        "revCount": 40,
+        "rev": "5101a5bcc7e7a278ad8de49688624e142ef7be55",
+        "revCount": 43,
         "type": "git",
         "url": "https://git.cherdak.work/FrogOS/FrogOS"
       },
@@ -284,11 +284,11 @@
     "planner-src": {
       "flake": false,
       "locked": {
-        "lastModified": 1782648718,
-        "narHash": "sha256-aGKzXRojIegHmdf27U+4v0FUMp7X7BbpFlHD0vIYiV4=",
+        "lastModified": 1782654898,
+        "narHash": "sha256-6tCHpNig2dPxiVTeCoL8tOHV16gj5wjSYmOVygRzWfo=",
         "ref": "refs/heads/main",
-        "rev": "1c318a6b16b5bcaaa1afe3dc5c345d877a0e6bba",
-        "revCount": 97,
+        "rev": "bc4b68b3bd650f1f0e1dda4cd16eb4e4c41f6d6d",
+        "revCount": 98,
         "type": "git",
         "url": "https://git.cherdak.work/FrogOS/planner"
       },
