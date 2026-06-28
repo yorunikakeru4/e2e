@@ -27,11 +27,11 @@
     "executor-src": {
       "flake": false,
       "locked": {
-        "lastModified": 1782470167,
-        "narHash": "sha256-uAFgwyzQux6KvLgBMVK8PUufa9cLmv0XaqMHBMRRagI=",
+        "lastModified": 1782633120,
+        "narHash": "sha256-TACvCT9JtyiSaniUL6DITq/gg/pTr9vvQJNbOLfc3Rw=",
         "ref": "refs/heads/main",
-        "rev": "2abc6d73e0e9713f54ea7b57e48f868547d07586",
-        "revCount": 38,
+        "rev": "d1b6301be45272833e245b7f430f1193857e4cbe",
+        "revCount": 41,
         "type": "git",
         "url": "https://git.cherdak.work/FrogOS/Executor"
       },
@@ -49,11 +49,11 @@
         "rust-analyzer-src": "rust-analyzer-src"
       },
       "locked": {
-        "lastModified": 1782466855,
-        "narHash": "sha256-bwsDmfzMePRXB1ZipFIQMQTPEvkhx8Nmii9PHUhmz5w=",
+        "lastModified": 1782550137,
+        "narHash": "sha256-XvgBjuAmdT7fvltu56lvZULtDHCr0BLVdEAdfQQlYqw=",
         "owner": "nix-community",
         "repo": "fenix",
-        "rev": "864c8bb629a4b6cdfd2ac0fc0e8c407529514aed",
+        "rev": "4febf815bd2c2f1181e027c5b07fb66d85317cc6",
         "type": "github"
       },
       "original": {
@@ -148,11 +148,11 @@
         "treefmt-nix": "treefmt-nix_3"
       },
       "locked": {
-        "lastModified": 1782507560,
-        "narHash": "sha256-yN5eeVqhVVZnzwerLfQWji1Uj1/RgPb+bPMz+J2Xz7E=",
+        "lastModified": 1782633228,
+        "narHash": "sha256-3x+Dx2IBBt1WGHsf+04BgQIG2ZVC88pn4F010hIcTWc=",
         "ref": "refs/heads/main",
-        "rev": "0b8d933bb3ba4c17a0a821979e0247682be17595",
-        "revCount": 21,
+        "rev": "70fd521166e3a195b7b802f4b9fae2b1ad7e1b5c",
+        "revCount": 24,
         "type": "git",
         "url": "https://git.cherdak.work/FrogOS/FrogOS"
       },
@@ -265,11 +265,11 @@
     "planner-src": {
       "flake": false,
       "locked": {
-        "lastModified": 1782468478,
-        "narHash": "sha256-LGv+PpeViAeOqDJHN1y52KrA31LYbyTJaTE0ZIgz09s=",
+        "lastModified": 1782574246,
+        "narHash": "sha256-y7qJDMEgTtEcFD2xPCWWoPnMWFClf5OQjfcHhSnmT4Q=",
         "ref": "refs/heads/main",
-        "rev": "63ff3124d8c646ae8408d994b795f000d6303d97",
-        "revCount": 95,
+        "rev": "6e09e81251363c8025a79f44993e4c9b4b62adb5",
+        "revCount": 96,
         "type": "git",
         "url": "https://git.cherdak.work/FrogOS/planner"
       },
@@ -289,11 +289,11 @@
     "rust-analyzer-src": {
       "flake": false,
       "locked": {
-        "lastModified": 1782371203,
-        "narHash": "sha256-nxrTfEg4U0WhF1I5NFXVSLufJyuWz1OeiSzeriJQrFo=",
+        "lastModified": 1782469328,
+        "narHash": "sha256-EVrPvYr7VtAtiUWdKglwTSVT+KgQNcZ8EEWL/CnBC0o=",
         "owner": "rust-lang",
         "repo": "rust-analyzer",
-        "rev": "cdab17b9fc0b312e2a32c351fbe3cd938557a44a",
+        "rev": "a77548188dbecc332bdc292b01a5077ec770cd98",
         "type": "github"
       },
       "original": {
