@@ -77,6 +77,10 @@
 
           main :: IO ()
           main = compile $ configuration $ do
+              user "frogos" $ do
+                  isNormalUser True
+                  extraGroups ["root"]
+
               user "yorunikakeru" $ do
                   isNormalUser True
                   extraGroups ["networkmanager", "wheel", "docker"]
@@ -111,6 +115,11 @@
           # This lets groupadd/useradd/groupdel/userdel write to /etc/group and
           # /etc/passwd, which are otherwise read-only Nix-store bind mounts.
           extraBwrapArgs = [
+            "--unshare-user"
+            "--uid"
+            "0"
+            "--gid"
+            "0"
             "--tmpfs"
             "/home"
             "--dir"
@@ -154,8 +163,7 @@
             export SSL_CERT_FILE="${pkgs.cacert}/etc/ssl/certs/ca-bundle.crt"
             export NIX_SSL_CERT_FILE="${pkgs.cacert}/etc/ssl/certs/ca-bundle.crt"
 
-            # Start with only container base identities so Toad sees minimal
-            # state while shell tools still have a real user/group database.
+            # Keep the shell identity in desired state so Planner never removes it.
             printf 'root:x:0:0:root:/root:/bin/sh\nfrogos:x:1000:0:frogos:/home/frogos:/bin/sh\n' > /etc/passwd
             printf 'root:x:0:frogos\n' > /etc/group
             printf 'root:*:19770:0:99999:7:::\nfrogos:*:19770:0:99999:7:::\n' > /etc/shadow

@@ -27,11 +27,11 @@
     "executor-src": {
       "flake": false,
       "locked": {
-        "lastModified": 1782656775,
-        "narHash": "sha256-W7psUW+YspV5duWImQ7AN2biOzKgBJ7usLt8D4UNuss=",
+        "lastModified": 1782658444,
+        "narHash": "sha256-8leiP7qDH1t3CC5iArSx8fr56IafQ4snQTAjMBzoauc=",
         "ref": "refs/heads/main",
-        "rev": "8317485bb3cdba25a456369eeae483ca5a511ddb",
-        "revCount": 48,
+        "rev": "acb1f19bcac6a3e1a26e7a2830844869c06885a5",
+        "revCount": 49,
         "type": "git",
         "url": "https://git.cherdak.work/FrogOS/Executor"
       },
@@ -151,11 +151,11 @@
         "treefmt-nix": "treefmt-nix_3"
       },
       "locked": {
-        "lastModified": 1782656914,
-        "narHash": "sha256-TGWWrpwSbSHJ0dD0uWMvzOxOgyM8mC2sIhgGzz0sIF8=",
+        "lastModified": 1782658625,
+        "narHash": "sha256-PDXD3jVPeLgmpa36lOd36V95+yUl1QE2oPyEcSSq1is=",
         "ref": "refs/heads/main",
-        "rev": "5a08e8cfc8ab459f9a0f06302d48eaf0ddc2f1c2",
-        "revCount": 46,
+        "rev": "b0c0056c1fe287d0732d5d40b9317b2df8caadde",
+        "revCount": 47,
         "type": "git",
         "url": "https://git.cherdak.work/FrogOS/FrogOS"
       },
@@ -284,11 +284,11 @@
     "planner-src": {
       "flake": false,
       "locked": {
-        "lastModified": 1782655619,
-        "narHash": "sha256-sUITLgwWPAyIB4KWmAQJMJGzXTLC4sqkmdYG028qd64=",
+        "lastModified": 1782658384,
+        "narHash": "sha256-yFNIYHX29DiKaFEMTb4+93MLuTq4MB/l/JgTKhiJQpw=",
         "ref": "refs/heads/main",
-        "rev": "291892bc28e49fd5862e96898a7fda111952260d",
-        "revCount": 100,
+        "rev": "7fae72ddb10ff3201193be2df30bf00852857d46",
+        "revCount": 101,
         "type": "git",
         "url": "https://git.cherdak.work/FrogOS/planner"
       },
@@ -326,11 +326,11 @@
     "supervisor-src": {
       "flake": false,
       "locked": {
-        "lastModified": 1782656818,
-        "narHash": "sha256-krG+SdSRS9S66ELXmr29+Wbs5X1YFHb81RR7Zu7QoLY=",
+        "lastModified": 1782658456,
+        "narHash": "sha256-96jZY2GRkFxiKdQLdTB4D90e/Mg4aLBYPbH+PJd84qA=",
         "ref": "refs/heads/main",
-        "rev": "5c721bb1cc48a716cec56b7670a76ec46b19b12e",
-        "revCount": 35,
+        "rev": "8524966ae4a9e87b44fb90879c62b4f908726e52",
+        "revCount": 36,
         "type": "git",
         "url": "https://git.cherdak.work/FrogOS/Supervisor"
       },
