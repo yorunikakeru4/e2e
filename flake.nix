@@ -181,6 +181,8 @@
             "--tmpfs"
             "/frogos"
             "--tmpfs"
+            "/var"
+            "--tmpfs"
             "/etc/dinit"
             "--tmpfs"
             "/etc/frogos"
@@ -197,6 +199,7 @@
             cd "$HOME"
 
             mkdir -p /frogos/generations /frogos/store /etc/dinit/system /etc/frogos /run
+            mkdir -p /var/lib/frogos/generations
 
             cp ${cabalProjectTemplate}   /etc/frogos/cabal.project
             cp ${frogosConfigCabal}      /etc/frogos/frogos-config.cabal
