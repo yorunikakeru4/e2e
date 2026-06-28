@@ -102,7 +102,7 @@
             pkgs.jq
             pkgs.less
             pkgs.procps
-            pkgs.shadow   # provides groupadd/useradd/groupdel/userdel
+            pkgs.shadow # provides groupadd/useradd/groupdel/userdel
             pkgs.cacert
           ];
 
@@ -125,10 +125,19 @@
           ];
 
           runScript = pkgs.writeShellScript "e2e-entry" ''
+            # Set PATH before anything else: /etc/profile is absent until we create
+            # it below, so /init's attempt to source it leaves PATH unset.
+            export PATH="/usr/local/bin:/usr/bin:/bin:/usr/local/sbin:/usr/sbin:/sbin"
             set -euo pipefail
 
             # ── writable /etc ─────────────────────────────────────────────────
             mkdir -p /etc/ssl/certs /etc/dinit/system /etc/frogos /etc/ld.so.conf.d
+
+            cd /etc/frogos
+
+            # Restore /etc/profile so interactive shells get a working PATH.
+            printf 'export PATH="/usr/local/bin:/usr/bin:/bin:/usr/local/sbin:/usr/sbin:/sbin"\n' \
+              > /etc/profile
 
             # DNS (public resolvers for the sandbox)
             printf 'nameserver 8.8.8.8\nnameserver 1.1.1.1\n' > /etc/resolv.conf
