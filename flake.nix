@@ -60,98 +60,29 @@
 
           executable frogos-config
             main-is:          Main.hs
-            other-modules:    Gaming, ServerStack, Users
             build-depends:    base, DSL, bytestring
             hs-source-dirs:   .
             default-language: Haskell2010
         '';
 
         mainHsTemplate = pkgs.writeText "Main.hs" ''
+          {-# LANGUAGE OverloadedStrings #-}
+
           module Main (main) where
 
           import Compile (compile)
-          import DSL (configuration)
-          import Gaming (gaming)
-          import ServerStack (serverStack)
-          import Users (users)
+          import DSL (configuration, systemPackages)
+
+          import User (extraGroups, isNormalUser, packages, user)
 
           main :: IO ()
           main = compile $ configuration $ do
-              gaming
-              serverStack
-              users
-        '';
-
-        gamingHsTemplate = pkgs.writeText "Gaming.hs" ''
-          {-# LANGUAGE OverloadedStrings #-}
-
-          module Gaming where
-
-          import Builder (ConfigBuilder)
-          import Condition (poll, processRunning, via)
-          import DSL (profile, when)
-          import Module (disable, nginx)
-          import Power (PowerProfile (Performance), setPowerProfile)
-
-          gaming :: ConfigBuilder ()
-          gaming = profile "gaming" $
-              when (processRunning "steam" `via` poll 500) $ do
-                  disable nginx
-                  setPowerProfile Performance
-        '';
-
-        serverStackHsTemplate = pkgs.writeText "ServerStack.hs" ''
-          {-# LANGUAGE OverloadedStrings #-}
-
-          module ServerStack where
-
-          import Builder (ConfigBuilder)
-          import qualified Module.Forgejo as Fj
-          import qualified Module.Nginx as Nginx
-          import qualified Module.Nginx.VirtualHost as NginxVH
-          import qualified Module.PostgreSQL as PG
-          import Port (port, withFallback)
-
-          serverStack :: ConfigBuilder ()
-          serverStack = do
-              Nginx.nginxModule $ do
-                  Nginx.enable True
-                  Nginx.virtualHost "example.com" $ do
-                      NginxVH.httpPort (80 `withFallback` [800])
-                      NginxVH.httpsPort (443 `withFallback` [80])
-
-              Fj.forgejoModule $ do
-                  Fj.enable True
-                  Fj.httpPort (port 3000)
-                  Fj.sshPort (port 2222)
-                  Fj.domain "git.example.com"
-
-              PG.postgresqlModule $ do
-                  PG.enable True
-                  PG.port (port 5432)
-                  PG.dataDir "/var/lib/postgresql/data"
-                  PG.maxConnections 100
-        '';
-
-        usersHsTemplate = pkgs.writeText "Users.hs" ''
-          {-# LANGUAGE OverloadedStrings #-}
-
-          module Users where
-
-          import Builder (ConfigBuilder)
-          import User
-
-          users :: ConfigBuilder ()
-          users = do
-              user "alice" $ do
+              user "yorunikakeru" $ do
                   isNormalUser True
-                  description "Primary user"
                   extraGroups ["networkmanager", "wheel", "docker"]
-                  packages ["steam", "wine"]
+                  packages ["btop"]
 
-              user "bob" $ do
-                  isNormalUser False
-                  description "Service account"
+              systemPackages ["dust"]
         '';
 
         fhsEnv = pkgs.buildFHSEnv {
@@ -171,8 +102,13 @@
             pkgs.jq
             pkgs.less
             pkgs.procps
+            pkgs.shadow   # provides groupadd/useradd/groupdel/userdel
+            pkgs.cacert
           ];
 
+          # Replace individual /etc/* tmpfs mounts with a single writable /etc.
+          # This lets groupadd/useradd/groupdel/userdel write to /etc/group and
+          # /etc/passwd, which are otherwise read-only Nix-store bind mounts.
           extraBwrapArgs = [
             "--tmpfs"
             "/home"
@@ -181,9 +117,7 @@
             "--tmpfs"
             "/frogos"
             "--tmpfs"
-            "/etc/dinit"
-            "--tmpfs"
-            "/etc/frogos"
+            "/etc"
             "--tmpfs"
             "/run"
             "--chdir"
@@ -193,24 +127,52 @@
           runScript = pkgs.writeShellScript "e2e-entry" ''
             set -euo pipefail
 
-            export HOME=/home/frogos
-            cd "$HOME"
+            # ── writable /etc ─────────────────────────────────────────────────
+            mkdir -p /etc/ssl/certs /etc/dinit/system /etc/frogos /etc/ld.so.conf.d
 
-            mkdir -p /frogos/store/generations /etc/dinit/system /etc/frogos /run
+            # DNS (public resolvers for the sandbox)
+            printf 'nameserver 8.8.8.8\nnameserver 1.1.1.1\n' > /etc/resolv.conf
 
+            # Hosts
+            printf '127.0.0.1 localhost\n::1 localhost\n' > /etc/hosts
+
+            # NSS
+            printf 'passwd: files\ngroup: files\nshadow: files\nhosts: files dns\n' > /etc/nsswitch.conf
+
+            # CA certs (referenced by Nix store path baked in at build time)
+            ln -sf ${pkgs.cacert}/etc/ssl/certs/ca-bundle.crt /etc/ssl/certs/ca-certificates.crt
+            export SSL_CERT_FILE="${pkgs.cacert}/etc/ssl/certs/ca-bundle.crt"
+            export NIX_SSL_CERT_FILE="${pkgs.cacert}/etc/ssl/certs/ca-bundle.crt"
+
+            # Minimal user/group database — frogosd will add entries as needed
+            printf 'root:x:0:0:root:/root:/bin/sh\n' > /etc/passwd
+            printf '%s\n' \
+              'root:x:0:'       \
+              'wheel:x:998:'    \
+              'audio:x:29:'     \
+              'video:x:28:'     \
+              'networkmanager:x:142:' \
+              'docker:x:999:'   \
+              'users:x:100:'    > /etc/group
+            touch /etc/shadow /etc/gshadow
+            chmod 640 /etc/shadow /etc/gshadow
+
+            # ── generation store ───────────────────────────────────────────────
+            mkdir -p /frogos/store/generations
+
+            # ── config templates ───────────────────────────────────────────────
             cp ${cabalProjectTemplate}   /etc/frogos/cabal.project
             cp ${frogosConfigCabal}      /etc/frogos/frogos-config.cabal
             cp ${mainHsTemplate}         /etc/frogos/Main.hs
-            cp ${gamingHsTemplate}       /etc/frogos/Gaming.hs
-            cp ${serverStackHsTemplate}  /etc/frogos/ServerStack.hs
-            cp ${usersHsTemplate}        /etc/frogos/Users.hs
 
+            # ── Hackage index ──────────────────────────────────────────────────
             echo "Updating Hackage package list..."
             cabal update
 
             export XDG_RUNTIME_DIR="''${XDG_RUNTIME_DIR:-/run/user/$(id -u)}"
             mkdir -p "$XDG_RUNTIME_DIR"
 
+            # ── dinit ──────────────────────────────────────────────────────────
             printf 'type = internal\n' > /etc/dinit/system/boot
 
             dinit --user --services-dir /etc/dinit/system &
@@ -222,7 +184,8 @@
             [ -S "$XDG_RUNTIME_DIR/dinitctl" ] \
                 || echo "warning: dinit socket did not appear" >&2
 
-            frogosd &
+            # ── frogosd (logs to /run/frogosd.log) ────────────────────────────
+            frogosd 2>/run/frogosd.log &
             FROGOSD_PID=$!
             for _i in $(seq 1 30); do
                 [ -S /run/frogosd.sock ] && break
@@ -243,6 +206,7 @@
             echo ""
             echo "  note: first 'frogos apply' compiles DSL from source (~1-2 min)"
             echo "        subsequent runs use cabal cache"
+            echo "        use 'frogos watch' to stream live daemon logs"
             echo ""
 
             if [ $# -gt 0 ]; then
