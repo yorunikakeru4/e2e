@@ -139,6 +139,7 @@
         "executor-src": "executor-src",
         "fenix": "fenix",
         "flake-utils": "flake-utils_4",
+        "ir-src": "ir-src",
         "nixpkgs": [
           "nixpkgs"
         ],
@@ -150,11 +151,11 @@
         "treefmt-nix": "treefmt-nix_3"
       },
       "locked": {
-        "lastModified": 1782645535,
-        "narHash": "sha256-Z5vD+GbIp3zP2tMgAS2LVIAoe8ezcsaCwDnDz/vB/rA=",
+        "lastModified": 1782647016,
+        "narHash": "sha256-r32hlUj0LyOL5Wv+QOu2wkptTaoKNP9ozcvn5BzaZtQ=",
         "ref": "refs/heads/main",
-        "rev": "f98a84f6eb2f56f86c7aef2cc1f1a8ecb823f0cc",
-        "revCount": 28,
+        "rev": "072549b7ee24bfcb838cf88dcfc3aac82cfc4959",
+        "revCount": 31,
         "type": "git",
         "url": "https://git.cherdak.work/FrogOS/FrogOS"
       },
@@ -176,6 +177,22 @@
         "ref": "refs/heads/main",
         "rev": "57ec8770562f978c53ae75e5c4083201b6f6b25f",
         "revCount": 68,
+        "type": "git",
+        "url": "https://git.cherdak.work/FrogOS/IR"
+      },
+      "original": {
+        "type": "git",
+        "url": "https://git.cherdak.work/FrogOS/IR"
+      }
+    },
+    "ir-src": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1782430507,
+        "narHash": "sha256-oOobijZdV8xcX7dNCwfW/BooMZcLwHjdoIfBUfT5Nfg=",
+        "ref": "refs/heads/main",
+        "rev": "d354cd5b093f4dfad6b8645cb7fc9fc439d63f0c",
+        "revCount": 69,
         "type": "git",
         "url": "https://git.cherdak.work/FrogOS/IR"
       },
