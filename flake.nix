@@ -153,17 +153,10 @@
             export SSL_CERT_FILE="${pkgs.cacert}/etc/ssl/certs/ca-bundle.crt"
             export NIX_SSL_CERT_FILE="${pkgs.cacert}/etc/ssl/certs/ca-bundle.crt"
 
-            # Minimal user/group database — frogosd will add entries as needed
+            # Start with an empty user/group database so Toad sees no existing
+            # state and the planner only generates add-steps, never removals.
             printf 'root:x:0:0:root:/root:/bin/sh\n' > /etc/passwd
-            printf '%s\n' \
-              'root:x:0:'       \
-              'wheel:x:998:'    \
-              'audio:x:29:'     \
-              'video:x:28:'     \
-              'networkmanager:x:142:' \
-              'docker:x:999:'   \
-              'users:x:100:'    > /etc/group
-            touch /etc/shadow /etc/gshadow
+            touch /etc/group /etc/shadow /etc/gshadow
             chmod 640 /etc/shadow /etc/gshadow
 
             # ── generation store ───────────────────────────────────────────────
