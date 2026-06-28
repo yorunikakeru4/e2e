@@ -186,7 +186,8 @@
             mkdir -p "$XDG_RUNTIME_DIR"
 
             # ── dinit ──────────────────────────────────────────────────────────
-            printf 'type = internal\n' > /etc/dinit/system/boot
+            mkdir -p /etc/dinit/system/boot.d
+            printf 'type = internal\nwaits-for.d = /etc/dinit/system/boot.d\n' > /etc/dinit/system/boot
 
             dinit --user --services-dir /etc/dinit/system &
             DINIT_PID=$!
