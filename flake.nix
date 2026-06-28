@@ -196,6 +196,8 @@
             done
             [ -S "$XDG_RUNTIME_DIR/dinitctl" ] \
                 || echo "warning: dinit socket did not appear" >&2
+            [ -S "$XDG_RUNTIME_DIR/dinitctl" ] \
+                && ln -sf "$XDG_RUNTIME_DIR/dinitctl" /run/dinitctl
 
             # ── frogosd (logs to /run/frogosd.log) ────────────────────────────
             frogosd 2>/run/frogosd.log &
