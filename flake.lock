@@ -151,11 +151,11 @@
         "treefmt-nix": "treefmt-nix_3"
       },
       "locked": {
-        "lastModified": 1782647833,
-        "narHash": "sha256-W+d6huwWBtNqmtXR54Lsjz0U83ezu34XX0GE71glt54=",
+        "lastModified": 1782648114,
+        "narHash": "sha256-uf6mhZSLZN/iLcS0o05t5u//l3hj9erI7UIxYMZkln4=",
         "ref": "refs/heads/main",
-        "rev": "99822444cdcd748c1aa05c0e3374f89f9f14e129",
-        "revCount": 33,
+        "rev": "8dee878f6c2542187ddab30aaf4da1fdb8052dac",
+        "revCount": 34,
         "type": "git",
         "url": "https://git.cherdak.work/FrogOS/FrogOS"
       },

@@ -196,8 +196,7 @@
             export HOME=/home/frogos
             cd "$HOME"
 
-            mkdir -p /frogos/generations /frogos/store /etc/dinit/system /etc/frogos /run
-            export FROGOS_GENERATIONS_DIR=/frogos/generations
+            mkdir -p /frogos/store/generations /etc/dinit/system /etc/frogos /run
 
             cp ${cabalProjectTemplate}   /etc/frogos/cabal.project
             cp ${frogosConfigCabal}      /etc/frogos/frogos-config.cabal
