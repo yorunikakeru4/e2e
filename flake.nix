@@ -178,7 +178,10 @@
             cat > /etc/docker/daemon.json <<'EOF'
             {
               "bridge": "none",
+              "exec-root": "/run/docker",
+              "ipv6": false,
               "iptables": false,
+              "ip6tables": false,
               "ip-forward": false,
               "ip-masq": false,
               "storage-driver": "vfs"
