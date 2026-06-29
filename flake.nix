@@ -154,6 +154,13 @@
             chmod 755 /var /var/log /var/lib
             chmod 1777 /var/tmp
 
+            # Docker creates transient libnetwork sockets under exec-root.
+            # Pre-create them with sandbox-friendly permissions so bind(2)
+            # does not fail under the user namespace.
+            mkdir -p /run/docker/libnetwork
+            chown -R 0:0 /run/docker
+            chmod 1777 /run/docker /run/docker/libnetwork
+
             # ── writable /etc ─────────────────────────────────────────────────
             mkdir -p /etc/ssl/certs /etc/dinit/system /etc/frogos /etc/ld.so.conf.d /etc/docker
 
