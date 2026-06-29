@@ -72,21 +72,20 @@
 
           import Compile (compile)
           import DSL (configuration, systemPackages)
-
+          import Module.Virtualization
           import User (extraGroups, isNormalUser, packages, user)
 
           main :: IO ()
           main = compile $ configuration $ do
-              user "frogos" $ do
-                  isNormalUser True
-                  extraGroups ["root"]
-
               user "yorunikakeru" $ do
                   isNormalUser True
                   extraGroups ["networkmanager", "wheel", "docker"]
                   packages ["btop"]
 
-              systemPackages ["dust"]
+              virtualizationModule $ do
+                  enable True
+
+              systemPackages ["dust", "tetris"]
         '';
 
         fhsEnv = pkgs.buildFHSEnv {
@@ -109,6 +108,7 @@
             pkgs.shadow # provides groupadd/useradd/groupdel/userdel
             pkgs.sudo
             pkgs.cacert
+            pkgs.neovim
           ];
 
           # Replace individual /etc/* tmpfs mounts with a single writable /etc.
@@ -120,16 +120,24 @@
             "0"
             "--gid"
             "0"
+
             "--tmpfs"
             "/home"
             "--dir"
             "/home/frogos"
+
             "--tmpfs"
             "/frogos"
+
             "--tmpfs"
             "/etc"
+
             "--tmpfs"
             "/run"
+
+            "--tmpfs"
+            "/var"
+
             "--chdir"
             "/home/frogos"
           ];
@@ -140,8 +148,14 @@
             export PATH="/run/current-system/sw/bin:/usr/local/bin:/usr/bin:/bin:/usr/local/sbin:/usr/sbin:/sbin"
             set -euo pipefail
 
+            # ── writable /var ─────────────────────────────────────────────────
+            mkdir -p /var/log /var/lib /var/tmp
+            chown 0:0 /var /var/log /var/lib /var/tmp
+            chmod 755 /var /var/log /var/lib
+            chmod 1777 /var/tmp
+
             # ── writable /etc ─────────────────────────────────────────────────
-            mkdir -p /etc/ssl/certs /etc/dinit/system /etc/frogos /etc/ld.so.conf.d
+            mkdir -p /etc/ssl/certs /etc/dinit/system /etc/frogos /etc/ld.so.conf.d /etc/docker
 
             cd /etc/frogos
 
@@ -158,6 +172,19 @@
             # NSS
             printf 'passwd: files\ngroup: files\nshadow: files\nhosts: files dns\n' > /etc/nsswitch.conf
 
+            # Docker can start in this unprivileged e2e sandbox, but it cannot
+            # manage host firewall/NAT state. Keep the daemon alive for module
+            # lifecycle testing without requiring netfilter capabilities.
+            cat > /etc/docker/daemon.json <<'EOF'
+            {
+              "bridge": "none",
+              "iptables": false,
+              "ip-forward": false,
+              "ip-masq": false,
+              "storage-driver": "vfs"
+            }
+            EOF
+
             # CA certs (referenced by Nix store path baked in at build time)
             ln -sf ${pkgs.cacert}/etc/ssl/certs/ca-bundle.crt /etc/ssl/certs/ca-certificates.crt
             export SSL_CERT_FILE="${pkgs.cacert}/etc/ssl/certs/ca-bundle.crt"
@@ -165,13 +192,15 @@
 
             # Keep the shell identity in desired state so Planner never removes it.
             printf 'root:x:0:0:root:/root:/bin/sh\nfrogos:x:1000:0:frogos:/home/frogos:/bin/sh\n' > /etc/passwd
-            printf 'root:x:0:frogos\n' > /etc/group
+            # The e2e user namespace only maps gid 0. Keep FrogOS-managed groups
+            # on gid 0 so daemons can chown sockets to them inside the sandbox.
+            printf 'root:x:0:frogos\ndocker:x:0:frogos\nnetworkmanager:x:0:frogos\nwheel:x:0:frogos\n' > /etc/group
             printf 'root:*:19770:0:99999:7:::\nfrogos:*:19770:0:99999:7:::\n' > /etc/shadow
             printf 'root:!::frogos\n' > /etc/gshadow
             chmod 640 /etc/shadow /etc/gshadow
 
             # ── generation store ───────────────────────────────────────────────
-            mkdir -p /frogos/store/generations
+            mkdir -p /frogos/store/generations /frogos/store/packages
 
             # ── config templates ───────────────────────────────────────────────
             cp ${cabalProjectTemplate}   /etc/frogos/cabal.project
